@@ -1,0 +1,106 @@
+{
+  "high_scores": {
+    "2048": 2540,
+    "tetris": 2010,
+    "snake": 80
+  },
+  "play_counts": {
+    "2048": 3,
+    "minesweeper": 4,
+    "tetris": 9,
+    "snake": 5
+  },
+  "last_played": {
+    "2048": "2025-11-30T22:01:05.151482",
+    "minesweeper": "2025-11-30T22:01:00.376953",
+    "tetris": "2025-11-30T22:14:08.558207",
+    "snake": "2025-11-30T22:14:00.016602"
+  },
+  "game_history": [
+    {
+      "game": "2048",
+      "score": 12,
+      "timestamp": "2025-11-30T21:32:14.897136"
+    },
+    {
+      "game": "tetris",
+      "score": 46,
+      "timestamp": "2025-11-30T21:35:32.341419"
+    },
+    {
+      "game": "snake",
+      "score": 0,
+      "timestamp": "2025-11-30T21:35:47.360842"
+    },
+    {
+      "game": "snake",
+      "score": 0,
+      "timestamp": "2025-11-30T21:35:52.857580"
+    },
+    {
+      "game": "snake",
+      "score": 40,
+      "timestamp": "2025-11-30T21:36:00.781487"
+    },
+    {
+      "game": "snake",
+      "score": 40,
+      "timestamp": "2025-11-30T21:36:02.709417"
+    },
+    {
+      "game": "tetris",
+      "score": 2010,
+      "timestamp": "2025-11-30T21:44:14.687586"
+    },
+    {
+      "game": "snake",
+      "score": 80,
+      "timestamp": "2025-11-30T21:44:35.907553"
+    },
+    {
+      "game": "snake",
+      "score": 80,
+      "timestamp": "2025-11-30T21:44:37.628194"
+    },
+    {
+      "game": "2048",
+      "score": 2540,
+      "timestamp": "2025-11-30T21:46:44.775975"
+    },
+    {
+      "game": "2048",
+      "score": 2540,
+      "timestamp": "2025-11-30T21:46:47.485086"
+    },
+    {
+      "game": "tetris",
+      "score": 230,
+      "timestamp": "2025-11-30T22:00:56.426325"
+    },
+    {
+      "game": "tetris",
+      "score": 230,
+      "timestamp": "2025-11-30T22:00:59.084698"
+    },
+    {
+      "game": "2048",
+      "score": 600,
+      "timestamp": "2025-11-30T22:01:31.462654"
+    },
+    {
+      "game": "2048",
+      "score": 600,
+      "timestamp": "2025-11-30T22:01:33.696020"
+    },
+    {
+      "game": "snake",
+      "score": 0,
+      "timestamp": "2025-11-30T22:01:37.341383"
+    },
+    {
+      "game": "snake",
+      "score": 0,
+      "timestamp": "2025-11-30T22:14:03.021100"
+    }
+  ]
+}
