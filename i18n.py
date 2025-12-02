@@ -38,16 +38,28 @@ TRANSLATIONS = {
         "game_minesweeper": "扫雷",
         "game_tetris": "俄罗斯方块",
         "game_snake": "贪吃蛇",
+        "game_chess": "国际象棋",
 
         # 游戏提示
         "hint_2048": "使用 WASD/方向键 或滑动来移动方块",
         "hint_minesweeper": "左键揭开，右键标记地雷",
         "hint_tetris": "A/D/←/→ 移动\nW/↑ 旋转\nS/↓ 加速\n空格 直落",
         "hint_snake": "使用 WASD/方向键 控制蛇的移动",
+        "hint_chess": "点击棋子选择，点击目标位置移动",
 
         # 扫雷
         "mines": "地雷",
         "flag": "旗帜",
+
+        # 国际象棋
+        "white_turn": "白方回合",
+        "black_turn": "黑方回合",
+        "white_wins": "白方获胜！",
+        "black_wins": "黑方获胜！",
+        "white_in_check": "白方被将军！",
+        "black_in_check": "黑方被将军！",
+        "checkmate": "将死！",
+        "stalemate": "和棋（逼和）",
     },
     "en": {
         "app_name": "Game Collection",
@@ -83,16 +95,28 @@ TRANSLATIONS = {
         "game_minesweeper": "Minesweeper",
         "game_tetris": "Tetris",
         "game_snake": "Snake",
+        "game_chess": "Chess",
 
         # 游戏提示
         "hint_2048": "Use WASD/Arrow keys or swipe to move tiles",
         "hint_minesweeper": "Left click to reveal, right click to flag",
         "hint_tetris": "A/D/←/→ Move\nW/↑ Rotate\nS/↓ Speed up\nSpace Hard drop",
         "hint_snake": "Use WASD/Arrow keys to control the snake",
+        "hint_chess": "Click to select a piece, click destination to move",
 
         # 扫雷
         "mines": "Mines",
         "flag": "Flag",
+
+        # 国际象棋
+        "white_turn": "White's turn",
+        "black_turn": "Black's turn",
+        "white_wins": "White wins!",
+        "black_wins": "Black wins!",
+        "white_in_check": "White is in check!",
+        "black_in_check": "Black is in check!",
+        "checkmate": "Checkmate!",
+        "stalemate": "Stalemate (Draw)",
     }
 }
 
