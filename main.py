@@ -141,7 +141,7 @@ class MainWindow(Adw.ApplicationWindow):
             ("tetris", "game_tetris", "view-app-grid-symbolic"),
             ("snake", "game_snake", "emoji-nature-symbolic"),
             ("chess", "game_chess", "applications-games-symbolic"),
-            ("chinese_chess", "game_chinese_chess", "application-x-chess-pgn-symbolic"),
+            ("chinese_chess", "game_chinese_chess", "media-playback-start-symbolic"),
         ]
 
         for game_id, name_key, icon in games:
@@ -206,7 +206,7 @@ class MainWindow(Adw.ApplicationWindow):
             "tetris": {"name": _("game_tetris"), "icon": "view-app-grid-symbolic", "name_key": "game_tetris"},
             "snake": {"name": _("game_snake"), "icon": "emoji-nature-symbolic", "name_key": "game_snake"},
             "chess": {"name": _("game_chess"), "icon": "applications-games-symbolic", "name_key": "game_chess"},
-            "chinese_chess": {"name": _("game_chinese_chess"), "icon": "application-x-chess-pgn-symbolic", "name_key": "game_chinese_chess"},
+            "chinese_chess": {"name": _("game_chinese_chess"), "icon": "media-playback-start-symbolic", "name_key": "game_chinese_chess"},
         }
         return games.get(game_id)
 
