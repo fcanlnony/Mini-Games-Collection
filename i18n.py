@@ -60,6 +60,18 @@ TRANSLATIONS = {
         "black_in_check": "黑方被将军！",
         "checkmate": "将死！",
         "stalemate": "和棋（逼和）",
+
+        # 中国象棋
+        "game_chinese_chess": "中国象棋",
+        "hint_xiangqi": "点击棋子选择，点击目标位置移动",
+        "xiangqi_red_turn": "红方回合",
+        "xiangqi_black_turn": "黑方回合",
+        "xiangqi_red_wins": "红方获胜！",
+        "xiangqi_black_wins": "黑方获胜！",
+        "xiangqi_red_in_check": "红方被将军！",
+        "xiangqi_black_in_check": "黑方被将军！",
+        "xiangqi_checkmate": "将死！",
+        "xiangqi_stalemate": "困毙（和棋）",
     },
     "en": {
         "app_name": "Game Collection",
@@ -117,6 +129,18 @@ TRANSLATIONS = {
         "black_in_check": "Black is in check!",
         "checkmate": "Checkmate!",
         "stalemate": "Stalemate (Draw)",
+
+        # 中国象棋
+        "game_chinese_chess": "Chinese Chess",
+        "hint_xiangqi": "Click to select a piece, click destination to move",
+        "xiangqi_red_turn": "Red's turn",
+        "xiangqi_black_turn": "Black's turn",
+        "xiangqi_red_wins": "Red wins!",
+        "xiangqi_black_wins": "Black wins!",
+        "xiangqi_red_in_check": "Red is in check!",
+        "xiangqi_black_in_check": "Black is in check!",
+        "xiangqi_checkmate": "Checkmate!",
+        "xiangqi_stalemate": "Stalemate (Draw)",
     }
 }
 

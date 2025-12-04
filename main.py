@@ -12,6 +12,7 @@ from games.minesweeper import Minesweeper
 from games.tetris import Tetris
 from games.snake import Snake
 from games.chess import Chess
+from games.chinese_chess import ChineseChess
 from i18n import i18n, _
 
 
@@ -140,6 +141,7 @@ class MainWindow(Adw.ApplicationWindow):
             ("tetris", "game_tetris", "view-app-grid-symbolic"),
             ("snake", "game_snake", "emoji-nature-symbolic"),
             ("chess", "game_chess", "applications-games-symbolic"),
+            ("chinese_chess", "game_chinese_chess", "application-x-chess-pgn-symbolic"),
         ]
 
         for game_id, name_key, icon in games:
@@ -204,6 +206,7 @@ class MainWindow(Adw.ApplicationWindow):
             "tetris": {"name": _("game_tetris"), "icon": "view-app-grid-symbolic", "name_key": "game_tetris"},
             "snake": {"name": _("game_snake"), "icon": "emoji-nature-symbolic", "name_key": "game_snake"},
             "chess": {"name": _("game_chess"), "icon": "applications-games-symbolic", "name_key": "game_chess"},
+            "chinese_chess": {"name": _("game_chinese_chess"), "icon": "application-x-chess-pgn-symbolic", "name_key": "game_chinese_chess"},
         }
         return games.get(game_id)
 
@@ -248,6 +251,8 @@ class MainWindow(Adw.ApplicationWindow):
             game = Snake(self.app.score_manager)
         elif game_id == "chess":
             game = Chess(self.app.score_manager)
+        elif game_id == "chinese_chess":
+            game = ChineseChess(self.app.score_manager)
         else:
             return None
 
