@@ -25,6 +25,9 @@ Coming soon...
 | Minesweeper | 扫雷 | Classic mine-finding puzzle game |
 | Tetris | 俄罗斯方块 | Stack falling blocks to clear lines |
 | Snake | 贪吃蛇 | Guide the snake to eat and grow |
+| Chess | 国际象棋 | Classic chess game with AI opponent (3 difficulty levels) |
+| Chinese Chess | 中国象棋 | Traditional Chinese chess (Xiangqi) with AI opponent |
+| Tic-Tac-Toe | 井字棋 | Simple three-in-a-row game with AI opponent |
 
 ## Features / 功能特点
 
@@ -33,6 +36,9 @@ Coming soon...
 - Score tracking and history / 分数记录和历史
 - Frequently played games section / 常玩游戏显示
 - Keyboard and gesture controls / 键盘和手势控制
+- AI opponents with multiple difficulty levels / 多难度AI对手
+- Smooth piece movement animations (Chess games) / 流畅的棋子移动动画（象棋游戏）
+- Undo functionality / 悔棋功能
 
 ## Requirements / 依赖要求
 
@@ -89,20 +95,50 @@ python3 main.py
 ### Snake / 贪吃蛇
 - **WASD / Arrow keys**: Change direction / 改变方向
 
+### Chess / 国际象棋
+- **Mouse click**: Select and move pieces / 点击选择和移动棋子
+- **PvP / PvE modes**: Play against friend or AI / 双人对战或人机对战
+- **Undo button**: Take back moves / 悔棋按钮
+
+### Chinese Chess / 中国象棋
+- **Mouse click**: Select and move pieces / 点击选择和移动棋子
+- **PvP / PvE modes**: Play against friend or AI / 双人对战或人机对战
+- **Undo button**: Take back moves / 悔棋按钮
+
+### Tic-Tac-Toe / 井字棋
+- **Mouse click**: Place X or O / 点击放置X或O
+- **PvP / PvE modes**: Play against friend or AI / 双人对战或人机对战
+
 ## Project Structure / 项目结构
 
 ```
 Mini-Games-Collection/
-├── main.py           # Main application / 主程序
-├── score_manager.py  # Score management / 分数管理
-├── i18n.py          # Internationalization / 国际化
-├── games/           # Game modules / 游戏模块
-│   ├── game_2048.py
-│   ├── minesweeper.py
-│   ├── tetris.py
-│   └── snake.py
-├── log/             # Score data storage / 分数数据存储
-└── LICENSE          # GPL-3.0 License
+├── main.py              # Main application / 主程序
+├── score_manager.py     # Score management / 分数管理
+├── i18n.py             # Internationalization / 国际化
+├── CLAUDE.md           # AI assistant guidance / AI助手指导文档
+├── games/              # Game modules / 游戏模块
+│   ├── game_2048.py    # 2048 game
+│   ├── minesweeper.py  # Minesweeper
+│   ├── tetris.py       # Tetris
+│   ├── snake.py        # Snake
+│   ├── chess/          # Chess (modular) / 国际象棋（模块化）
+│   │   ├── __init__.py
+│   │   ├── logic.py    # Game logic / 游戏逻辑
+│   │   ├── ai.py       # AI engine (Minimax + Alpha-Beta) / AI引擎
+│   │   └── ui.py       # GTK UI with animations / GTK界面带动画
+│   ├── chinese_chess/  # Chinese Chess (modular) / 中国象棋（模块化）
+│   │   ├── __init__.py
+│   │   ├── logic.py
+│   │   ├── ai.py
+│   │   └── ui.py
+│   └── tic_tac_toe/    # Tic-Tac-Toe / 井字棋
+│       ├── __init__.py
+│       ├── logic.py
+│       ├── ai.py
+│       └── ui.py
+├── log/                # Score data storage / 分数数据存储
+└── LICENSE             # GPL-3.0 License
 ```
 
 ## License / 许可证

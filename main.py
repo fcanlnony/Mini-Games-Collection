@@ -13,7 +13,20 @@ from games.tetris import Tetris
 from games.snake import Snake
 from games.chess import Chess
 from games.chinese_chess import ChineseChess
+from games.tic_tac_toe import TicTacToe
 from i18n import i18n, _
+
+
+# 游戏配置
+GAMES_CONFIG = [
+    ("2048", "game_2048", "view-grid-symbolic"),
+    ("minesweeper", "game_minesweeper", "dialog-warning-symbolic"),
+    ("tetris", "game_tetris", "view-app-grid-symbolic"),
+    ("snake", "game_snake", "emoji-nature-symbolic"),
+    ("chess", "game_chess", "applications-games-symbolic"),
+    ("chinese_chess", "game_chinese_chess", "media-playback-start-symbolic"),
+    ("tic_tac_toe", "game_tic_tac_toe", "view-dual-symbolic"),
+]
 
 
 class GameCollection(Adw.Application):
@@ -36,6 +49,7 @@ class MainWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
         self.set_title(_("app_name"))
         self.set_default_size(800, 600)
+        self.set_resizable(True)
 
         self.app = kwargs.get('application')
         self.current_game = None
@@ -47,17 +61,17 @@ class MainWindow(Adw.ApplicationWindow):
         self.navigation_view = Adw.NavigationView()
         self.set_content(self.navigation_view)
 
-        # 创建欢迎页面
-        self.welcome_page = self.create_welcome_page()
-        self.navigation_view.push(self.welcome_page)
+        # 创建主页面
+        self.home_page = self.create_home_page()
+        self.navigation_view.push(self.home_page)
 
     def on_language_changed(self):
         """语言变更时刷新界面"""
         self.set_title(_("app_name"))
-        self.refresh_welcome_page()
+        self.refresh_home_page()
 
-    def create_welcome_page(self):
-        """创建欢迎页面"""
+    def create_home_page(self):
+        """创建主页面（一级界面）"""
         page = Adw.NavigationPage(title=_("app_name"))
 
         toolbar_view = Adw.ToolbarView()
@@ -72,22 +86,16 @@ class MainWindow(Adw.ApplicationWindow):
         menu_button.set_icon_name("open-menu-symbolic")
         menu_button.set_tooltip_text("Menu")
 
-        # 创建菜单
         menu = Gio.Menu()
-
-        # 语言子菜单
         lang_menu = Gio.Menu()
         lang_menu.append(_("chinese"), "win.set-lang-zh")
         lang_menu.append(_("english"), "win.set-lang-en")
         menu.append_submenu(_("language"), lang_menu)
-
-        # 关于
         menu.append(_("about"), "win.show-about")
 
         menu_button.set_menu_model(menu)
         header.pack_end(menu_button)
 
-        # 添加动作
         self.setup_actions()
 
         # 主内容
@@ -109,14 +117,60 @@ class MainWindow(Adw.ApplicationWindow):
         welcome_banner.set_description(_("welcome_desc"))
         main_box.append(welcome_banner)
 
-        # 常玩游戏部分
-        frequent_games = self.app.score_manager.get_frequent_games()
-        if frequent_games:
-            frequent_group = Adw.PreferencesGroup()
-            frequent_group.set_title(_("frequent_games"))
-            main_box.append(frequent_group)
+        # 导航分组
+        nav_group = Adw.PreferencesGroup()
+        main_box.append(nav_group)
 
-            for game_id, play_count in frequent_games[:3]:
+        # 常玩游戏入口
+        frequent_row = Adw.ActionRow()
+        frequent_row.set_title(_("frequent_games"))
+        frequent_row.set_subtitle(_("frequent_games_desc"))
+        frequent_row.set_activatable(True)
+        frequent_row.add_prefix(Gtk.Image.new_from_icon_name("starred-symbolic"))
+        frequent_row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
+        frequent_row.connect("activated", lambda r: self.show_frequent_games())
+        nav_group.add(frequent_row)
+
+        # 所有游戏入口
+        all_games_row = Adw.ActionRow()
+        all_games_row.set_title(_("all_games"))
+        all_games_row.set_subtitle(_("all_games_desc"))
+        all_games_row.set_activatable(True)
+        all_games_row.add_prefix(Gtk.Image.new_from_icon_name("view-app-grid-symbolic"))
+        all_games_row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
+        all_games_row.connect("activated", lambda r: self.show_all_games())
+        nav_group.add(all_games_row)
+
+        return page
+
+    def show_frequent_games(self):
+        """显示常玩游戏页面（二级界面）"""
+        page = Adw.NavigationPage(title=_("frequent_games"))
+
+        toolbar_view = Adw.ToolbarView()
+        page.set_child(toolbar_view)
+
+        header = Adw.HeaderBar()
+        toolbar_view.add_top_bar(header)
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        toolbar_view.set_content(scroll)
+
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=24)
+        main_box.set_margin_top(24)
+        main_box.set_margin_bottom(24)
+        main_box.set_margin_start(24)
+        main_box.set_margin_end(24)
+        scroll.set_child(main_box)
+
+        frequent_games = self.app.score_manager.get_frequent_games()
+
+        if frequent_games:
+            games_group = Adw.PreferencesGroup()
+            main_box.append(games_group)
+
+            for game_id, play_count in frequent_games:
                 game_info = self.get_game_info(game_id)
                 if game_info:
                     row = Adw.ActionRow()
@@ -124,27 +178,44 @@ class MainWindow(Adw.ApplicationWindow):
                     row.set_subtitle(_("played_times", count=play_count))
                     row.set_activatable(True)
                     row.add_prefix(Gtk.Image.new_from_icon_name(game_info['icon']))
+                    row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
                     row.connect("activated", self.on_game_selected, game_id)
+                    games_group.add(row)
+        else:
+            # 没有常玩游戏时显示提示
+            empty_status = Adw.StatusPage()
+            empty_status.set_icon_name("starred-symbolic")
+            empty_status.set_title(_("no_frequent_games"))
+            empty_status.set_description(_("no_frequent_games_desc"))
+            main_box.append(empty_status)
 
-                    arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
-                    row.add_suffix(arrow)
-                    frequent_group.add(row)
+        self.navigation_view.push(page)
 
-        # 所有游戏
-        all_games_group = Adw.PreferencesGroup()
-        all_games_group.set_title(_("all_games"))
-        main_box.append(all_games_group)
+    def show_all_games(self):
+        """显示所有游戏页面（二级界面）"""
+        page = Adw.NavigationPage(title=_("all_games"))
 
-        games = [
-            ("2048", "game_2048", "view-grid-symbolic"),
-            ("minesweeper", "game_minesweeper", "dialog-warning-symbolic"),
-            ("tetris", "game_tetris", "view-app-grid-symbolic"),
-            ("snake", "game_snake", "emoji-nature-symbolic"),
-            ("chess", "game_chess", "applications-games-symbolic"),
-            ("chinese_chess", "game_chinese_chess", "media-playback-start-symbolic"),
-        ]
+        toolbar_view = Adw.ToolbarView()
+        page.set_child(toolbar_view)
 
-        for game_id, name_key, icon in games:
+        header = Adw.HeaderBar()
+        toolbar_view.add_top_bar(header)
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        toolbar_view.set_content(scroll)
+
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=24)
+        main_box.set_margin_top(24)
+        main_box.set_margin_bottom(24)
+        main_box.set_margin_start(24)
+        main_box.set_margin_end(24)
+        scroll.set_child(main_box)
+
+        games_group = Adw.PreferencesGroup()
+        main_box.append(games_group)
+
+        for game_id, name_key, icon in GAMES_CONFIG:
             row = Adw.ActionRow()
             row.set_title(_(name_key))
 
@@ -154,27 +225,22 @@ class MainWindow(Adw.ApplicationWindow):
 
             row.set_activatable(True)
             row.add_prefix(Gtk.Image.new_from_icon_name(icon))
+            row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
             row.connect("activated", self.on_game_selected, game_id)
+            games_group.add(row)
 
-            arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
-            row.add_suffix(arrow)
-            all_games_group.add(row)
-
-        return page
+        self.navigation_view.push(page)
 
     def setup_actions(self):
         """设置菜单动作"""
-        # 设置中文
         action_zh = Gio.SimpleAction.new("set-lang-zh", None)
         action_zh.connect("activate", lambda a, p: self.set_language("zh"))
         self.add_action(action_zh)
 
-        # 设置英文
         action_en = Gio.SimpleAction.new("set-lang-en", None)
         action_en.connect("activate", lambda a, p: self.set_language("en"))
         self.add_action(action_en)
 
-        # 关于
         action_about = Gio.SimpleAction.new("show-about", None)
         action_about.connect("activate", lambda a, p: self.show_about_dialog())
         self.add_action(action_about)
@@ -201,12 +267,13 @@ class MainWindow(Adw.ApplicationWindow):
     def get_game_info(self, game_id):
         """获取游戏信息"""
         games = {
-            "2048": {"name": _("game_2048"), "icon": "view-grid-symbolic", "name_key": "game_2048"},
-            "minesweeper": {"name": _("game_minesweeper"), "icon": "dialog-warning-symbolic", "name_key": "game_minesweeper"},
-            "tetris": {"name": _("game_tetris"), "icon": "view-app-grid-symbolic", "name_key": "game_tetris"},
-            "snake": {"name": _("game_snake"), "icon": "emoji-nature-symbolic", "name_key": "game_snake"},
-            "chess": {"name": _("game_chess"), "icon": "applications-games-symbolic", "name_key": "game_chess"},
-            "chinese_chess": {"name": _("game_chinese_chess"), "icon": "media-playback-start-symbolic", "name_key": "game_chinese_chess"},
+            "2048": {"name": _("game_2048"), "icon": "view-grid-symbolic"},
+            "minesweeper": {"name": _("game_minesweeper"), "icon": "dialog-warning-symbolic"},
+            "tetris": {"name": _("game_tetris"), "icon": "view-app-grid-symbolic"},
+            "snake": {"name": _("game_snake"), "icon": "emoji-nature-symbolic"},
+            "chess": {"name": _("game_chess"), "icon": "applications-games-symbolic"},
+            "chinese_chess": {"name": _("game_chinese_chess"), "icon": "media-playback-start-symbolic"},
+            "tic_tac_toe": {"name": _("game_tic_tac_toe"), "icon": "view-dual-symbolic"},
         }
         return games.get(game_id)
 
@@ -219,7 +286,7 @@ class MainWindow(Adw.ApplicationWindow):
             self.navigation_view.push(game_page)
 
     def create_game_page(self, game_id):
-        """创建游戏页面"""
+        """创建游戏页面（三级界面）"""
         game_info = self.get_game_info(game_id)
         if not game_info:
             return None
@@ -229,39 +296,38 @@ class MainWindow(Adw.ApplicationWindow):
         toolbar_view = Adw.ToolbarView()
         page.set_child(toolbar_view)
 
-        # 头部栏
         header = Adw.HeaderBar()
         toolbar_view.add_top_bar(header)
 
-        # 返回按钮会自动添加
-
-        # 新游戏按钮
         new_game_btn = Gtk.Button(label=_("new_game"))
         new_game_btn.add_css_class("suggested-action")
         header.pack_end(new_game_btn)
 
         # 创建游戏实例
-        if game_id == "2048":
-            game = Game2048(self.app.score_manager)
-        elif game_id == "minesweeper":
-            game = Minesweeper(self.app.score_manager)
-        elif game_id == "tetris":
-            game = Tetris(self.app.score_manager)
-        elif game_id == "snake":
-            game = Snake(self.app.score_manager)
-        elif game_id == "chess":
-            game = Chess(self.app.score_manager)
-        elif game_id == "chinese_chess":
-            game = ChineseChess(self.app.score_manager)
-        else:
+        game_classes = {
+            "2048": Game2048,
+            "minesweeper": Minesweeper,
+            "tetris": Tetris,
+            "snake": Snake,
+            "chess": Chess,
+            "chinese_chess": ChineseChess,
+            "tic_tac_toe": TicTacToe,
+        }
+
+        game_class = game_classes.get(game_id)
+        if not game_class:
             return None
 
+        game = game_class(self.app.score_manager)
         self.current_game = game
         new_game_btn.connect("clicked", lambda b: game.new_game())
 
-        toolbar_view.set_content(game.get_widget())
+        # 使用 ScrolledWindow 包裹游戏内容，允许窗口调整大小
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        scroll.set_child(game.get_widget())
+        toolbar_view.set_content(scroll)
 
-        # 页面隐藏时停止游戏
         page.connect("hidden", lambda p: self.on_game_hidden(game))
 
         return page
@@ -270,17 +336,13 @@ class MainWindow(Adw.ApplicationWindow):
         """游戏页面隐藏时"""
         if hasattr(game, 'stop'):
             game.stop()
-        # 刷新欢迎页面
-        self.refresh_welcome_page()
 
-    def refresh_welcome_page(self):
-        """刷新欢迎页面"""
-        # 移除旧页面
-        self.navigation_view.pop_to_page(self.welcome_page)
-        # 重新创建欢迎页面
-        self.navigation_view.remove(self.welcome_page)
-        self.welcome_page = self.create_welcome_page()
-        self.navigation_view.push(self.welcome_page)
+    def refresh_home_page(self):
+        """刷新主页面"""
+        self.navigation_view.pop_to_page(self.home_page)
+        self.navigation_view.remove(self.home_page)
+        self.home_page = self.create_home_page()
+        self.navigation_view.push(self.home_page)
 
 
 def main():

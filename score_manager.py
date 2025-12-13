@@ -74,13 +74,13 @@ class ScoreManager:
         """获取游戏次数"""
         return self.data["play_counts"].get(game_id, 0)
 
-    def get_frequent_games(self):
+    def get_frequent_games(self, limit=3):
         """获取常玩游戏列表（按次数排序）"""
         play_counts = self.data["play_counts"]
         if not play_counts:
             return []
         sorted_games = sorted(play_counts.items(), key=lambda x: x[1], reverse=True)
-        return sorted_games
+        return sorted_games[:limit]
 
     def get_recent_scores(self, game_id, limit=10):
         """获取最近的分数记录"""

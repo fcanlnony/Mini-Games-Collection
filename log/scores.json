@@ -2,19 +2,27 @@
   "high_scores": {
     "2048": 2540,
     "tetris": 2010,
-    "snake": 80
+    "snake": 80,
+    "chinese_chess": 35,
+    "tic_tac_toe": 1
   },
   "play_counts": {
-    "2048": 3,
-    "minesweeper": 4,
-    "tetris": 9,
-    "snake": 5
+    "2048": 5,
+    "minesweeper": 5,
+    "tetris": 10,
+    "snake": 7,
+    "chess": 9,
+    "chinese_chess": 13,
+    "tic_tac_toe": 7
   },
   "last_played": {
-    "2048": "2025-11-30T22:01:05.151482",
-    "minesweeper": "2025-11-30T22:01:00.376953",
-    "tetris": "2025-11-30T22:14:08.558207",
-    "snake": "2025-11-30T22:14:00.016602"
+    "2048": "2025-12-13T20:12:39.257773",
+    "minesweeper": "2025-11-30T22:41:43.097168",
+    "tetris": "2025-11-30T22:41:46.634162",
+    "snake": "2025-12-13T20:12:41.199673",
+    "chess": "2025-12-13T21:48:16.270662",
+    "chinese_chess": "2025-12-13T21:48:28.187637",
+    "tic_tac_toe": "2025-12-13T21:48:23.362713"
   },
   "game_history": [
     {
@@ -101,6 +109,41 @@
       "game": "snake",
       "score": 0,
       "timestamp": "2025-11-30T22:14:03.021100"
+    },
+    {
+      "game": "2048",
+      "score": 88,
+      "timestamp": "2025-11-30T22:41:42.403729"
+    },
+    {
+      "game": "tetris",
+      "score": 24,
+      "timestamp": "2025-11-30T22:41:50.266612"
+    },
+    {
+      "game": "snake",
+      "score": 10,
+      "timestamp": "2025-11-30T22:41:54.125641"
+    },
+    {
+      "game": "chinese_chess",
+      "score": 35,
+      "timestamp": "2025-12-04T22:24:10.149857"
+    },
+    {
+      "game": "tic_tac_toe",
+      "score": 1,
+      "timestamp": "2025-12-13T19:59:06.467101"
+    },
+    {
+      "game": "tic_tac_toe",
+      "score": 1,
+      "timestamp": "2025-12-13T20:13:25.442490"
+    },
+    {
+      "game": "tic_tac_toe",
+      "score": 1,
+      "timestamp": "2025-12-13T20:48:46.420438"
     }
   ]
 }
